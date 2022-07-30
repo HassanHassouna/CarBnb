@@ -1,7 +1,8 @@
 const UtilsService = require("../services/utils");
 
 const availableCars = async (req, res, next) => {
-  const search = req.body;
+  console.log("availableCars", req.body);
+  const search = req;
   try {
     const availableCars = await UtilsService.getAvailableCars(search);
     if (!availableCars) {

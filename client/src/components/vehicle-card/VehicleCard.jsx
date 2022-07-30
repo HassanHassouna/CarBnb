@@ -7,8 +7,10 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import PaidIcon from "@mui/icons-material/Paid";
 import AirlineSeatReclineExtraIcon from "@mui/icons-material/AirlineSeatReclineExtra";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import Box from "@mui/material/Box";
+import { Button } from "@mui/material";
 
 const styleBox1 = {
   display: "flex",
@@ -32,13 +34,25 @@ const styleBox3 = {
 };
 
 const VehicleCard = (props) => {
+  const handleDeleteClick = (e) => {
+    console.log(
+      `implement here the Delete click handler of car with id ${props.item.id}`
+    );
+  };
+
+  const handleEditClick = (e) => {
+    console.log(
+      `implement here the Edit click handler of car with id ${props.item.id}`
+    );
+  };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         height="200"
         image={props.item.img}
-        alt={props.item.brand + " " + props.item.model}
+        alt={props.item.brand + props.item.model}
       />
       <CardContent>
         <Box sx={styleBox1}>
@@ -76,7 +90,7 @@ const VehicleCard = (props) => {
             <LocationOnIcon color="primary" fontSize={"10px"} />
             {props.item.location}
           </Typography>
-          <Box display="flex" gap="40px" marginTop="20px">
+          <Box display="flex" gap="18px" marginTop="20px">
             <Typography
               display="flex"
               flexDirection="column"
@@ -93,7 +107,7 @@ const VehicleCard = (props) => {
             <Typography
               display="flex"
               flexDirection="column"
-              variant="h6"
+              variant="h"
               gap="5px"
               fontWeight={"bold"}
               component="box"
@@ -156,6 +170,31 @@ const VehicleCard = (props) => {
               {"price"}
             </Typography>
             <Typography> {`${props.item.totalPrice} /day`}</Typography>
+
+            {props.page === "myCars" && (
+              <Box display="flex" flexDirection="row">
+                <Button
+                  onClick={handleEditClick}
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  style={{ marginLeft: "90px", width: "90px" }}
+                  startIcon={<DeleteOutlineIcon />}
+                >
+                  edit
+                </Button>
+                <Button
+                  onClick={handleDeleteClick}
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  style={{ marginLeft: "20px", width: "90px" }}
+                  startIcon={<DeleteOutlineIcon />}
+                >
+                  delete
+                </Button>
+              </Box>
+            )}
           </Typography>
         </Box>
       </CardContent>

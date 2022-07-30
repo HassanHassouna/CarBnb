@@ -7,6 +7,9 @@ import Box from "@mui/material/Box";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PaidIcon from "@mui/icons-material/Paid";
+import { useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import { Link } from "@mui/material";
 
 const styleBox1 = {
   display: "flex",
@@ -22,6 +25,12 @@ const styleBox2 = {
 };
 
 const ReservationCard = (props) => {
+  const [page, setPage] = useState("");
+
+  useEffect(() => {
+    setPage(props.page);
+  }, [props.page]);
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -33,7 +42,7 @@ const ReservationCard = (props) => {
       <CardContent>
         <Box sx={styleBox1}>
           <Box>
-            <Typography
+            <Box
               display="flex"
               flexDirection="row"
               variant="h6"
@@ -41,20 +50,20 @@ const ReservationCard = (props) => {
               component="div"
             >
               {props.item.brand}
-              <Typography
+              <Box
                 component="div"
                 marginLeft="10px"
                 variant="h8"
                 color="text.secondary"
               >
                 {props.item.type}
-              </Typography>
-            </Typography>
+              </Box>
+            </Box>
           </Box>
-          <Typography variant="h7" color="text.secondary">
+          <Box variant="h7" color="text.secondary">
             {props.item.model}
-          </Typography>
-          <Typography
+          </Box>
+          <Box
             variant="h8"
             fontWeight={"bold"}
             component="div"
@@ -63,9 +72,30 @@ const ReservationCard = (props) => {
             flexDirection="row"
             gap="8px"
           >
-            <LocationOnIcon color="primary" fontSize={"10px"} />
-            {props.item.location}
-          </Typography>
+            <Box display="flex" flexDirection="row">
+              <Avatar>{props.user.charAt(0)}</Avatar>
+              <Box>
+                <Link
+                  display="flex"
+                  flexDirection="row"
+                  gap="8px"
+                  variant="h8"
+                  color="text.secondary"
+                  marginLeft="20px"
+                  width={"100px"}
+                  marginTop="10px"
+                  style={{ textDecoration: "none" }}
+                  href={`https://fullstackmondayu.monday.com/boards/2949023880`}
+                >
+                  {props.user}
+                </Link>
+              </Box>
+            </Box>
+            <Box marginRigth={"40px"} marginTop={"10px"} width={"140px"}>
+              <LocationOnIcon color="primary" fontSize={"10px"} />
+              {props.item.location}
+            </Box>
+          </Box>
           <Box display="flex" gap="40px" marginTop="20px">
             <Typography
               display="flex"

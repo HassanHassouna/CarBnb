@@ -116,8 +116,10 @@ class ListApiService {
   }
 
   static async getSearchResult(order) {
+    console.log("getSearchResult", order);
     try {
-      const response = await axios.get(BASE_URL + UTILS, order);
+      const response = await axios.post(BASE_URL + UTILS, order);
+
       return response.data;
     } catch (err) {
       console.log(err.message);
