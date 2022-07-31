@@ -8,6 +8,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import AirlineSeatReclineExtraIcon from "@mui/icons-material/AirlineSeatReclineExtra";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
@@ -179,7 +180,7 @@ const VehicleCard = (props) => {
                   color="primary"
                   size="small"
                   style={{ marginLeft: "90px", width: "90px" }}
-                  startIcon={<DeleteOutlineIcon />}
+                  startIcon={<BorderColorIcon />}
                 >
                   edit
                 </Button>
