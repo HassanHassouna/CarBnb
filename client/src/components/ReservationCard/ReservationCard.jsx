@@ -42,7 +42,7 @@ const ReservationCard = (props) => {
       <CardContent>
         <Box sx={styleBox1}>
           <Box>
-            <Box
+            <Typography
               display="flex"
               flexDirection="row"
               variant="h6"
@@ -50,20 +50,20 @@ const ReservationCard = (props) => {
               component="div"
             >
               {props.item.brand}
-              <Box
+              <Typography
                 component="div"
                 marginLeft="10px"
                 variant="h8"
                 color="text.secondary"
               >
                 {props.item.type}
-              </Box>
-            </Box>
+              </Typography>
+            </Typography>
           </Box>
-          <Box variant="h7" color="text.secondary">
+          <Typography variant="h7" color="text.secondary">
             {props.item.model}
-          </Box>
-          <Box
+          </Typography>
+          <Typography
             variant="h8"
             fontWeight={"bold"}
             component="div"
@@ -73,7 +73,15 @@ const ReservationCard = (props) => {
             gap="8px"
           >
             <Box display="flex" flexDirection="row">
-              <Avatar>{props.user.charAt(0)}</Avatar>
+              <Avatar>
+                {
+                  //split the user name by space and take the first letter of each word
+                  props.user
+                    .split(" ")
+                    .map((word) => word[0])
+                    .join("")
+                }
+              </Avatar>
               <Box>
                 <Link
                   display="flex"
@@ -85,7 +93,7 @@ const ReservationCard = (props) => {
                   width={"100px"}
                   marginTop="10px"
                   style={{ textDecoration: "none" }}
-                  href={`https://fullstackmondayu.monday.com/boards/2949023880`}
+                  href={`https://fullstackmondayu.monday.com/boards/2949023880`} // navigate here to user profile page
                 >
                   {props.user}
                 </Link>
@@ -95,7 +103,7 @@ const ReservationCard = (props) => {
               <LocationOnIcon color="primary" fontSize={"10px"} />
               {props.item.location}
             </Box>
-          </Box>
+          </Typography>
           <Box display="flex" gap="40px" marginTop="20px">
             <Typography
               display="flex"
