@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -14,6 +14,8 @@ import AdbIcon from "@mui/icons-material/Adb"
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline"
 import Model from "./Model"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { loginUser } from "../../app/actions/login-user-actions"
 
 const pagesIfVisitor = ["Learn more", "Log in", "Sign up"]
 const pagesIfLog = ["Learn more", "My profile"]
@@ -22,21 +24,29 @@ const settingsIfLog = ["Profile", "Account", "Dashboard", "Logout"]
 const NavBarComponent = () => {
   const navigate = useNavigate()
   const [isUser, setIsUser] = useState(false)
-  const [anchorElNav, setAnchorElNav] = useState(null)
-  const [anchorElUser, setAnchorElUser] = useState(null)
-
+  const [anchorElNav, setAnchorElNav] = useState(false)
+  const [anchorElUser, setAnchorElUser] = useState(false)
+  const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem("user"))
-  useEffect(() => {
-    checkIfUserLogIn()
-  }, [])
 
-  const checkIfUserLogIn = () => {
-    // checking local storage if user is logged in
+  useEffect(() => {
+    const userObject = JSON.parse(localStorage.getItem("user"))
     if (localStorage.getItem("user")) {
-      console.log("user is logged in", JSON.parse(localStorage.getItem("user")))
+      console.log("user is logged in", userObject)
+      dispatch(loginUser(userObject.email))
       setIsUser(true)
     }
-  }
+  }, [])
+
+  // const checkIfUserLogIn = () => {
+  //   // checking local storage if user is logged in
+  //   const userObject = JSON.parse(localStorage.getItem("user"))
+  //   if (localStorage.getItem("user")) {
+  //     console.log("user is logged in", userObject)
+  //     dispatch(loginUser(userObject.email))
+  //     setIsUser(true)
+  //   }
+  // }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -116,7 +126,6 @@ const NavBarComponent = () => {
                           onClick={() => {
                             navigate("/MyProfile")
                             handleCloseNavMenu()
-                            console.log("clicked")
                           }}
                         >
                           <Typography textAlign="center">{page}</Typography>
@@ -128,7 +137,6 @@ const NavBarComponent = () => {
                         key={page}
                         onClick={() => {
                           handleCloseNavMenu()
-                          console.log("clicked")
                         }}
                       >
                         <Typography textAlign="center">{page}</Typography>
@@ -181,7 +189,6 @@ const NavBarComponent = () => {
                           navigate(`/${page.toLowerCase().replace(" ", "")}`)
 
                           handleCloseNavMenu()
-                          console.log("clicked")
                         }}
                       >
                         <Typography textAlign="center">{page}</Typography>
@@ -200,17 +207,9 @@ const NavBarComponent = () => {
                     </MenuItem>
                   )
                 })
-              : pagesIfVisitor.map((page) => {
+              : pagesIfVisitor.map((page, index) => {
                   if (page === "Log in") {
-                    return (
-                      // return a button to log in with model
-                      <Button
-                        key={page}
-                        sx={{ ml: 4, color: "white", display: "block" }}
-                      >
-                        <Model pageName={page} />
-                      </Button>
-                    )
+                    return <Model key={index} pageName={page} />
                   }
                   return (
                     <Button
@@ -271,7 +270,7 @@ const NavBarComponent = () => {
                   })}
               </Menu>
             ) : (
-              <Menu sx={{ mt: "45px" }}></Menu>
+              <Menu open={anchorElUser} sx={{ mt: "45px" }}></Menu>
             )}
           </Box>
           {/* ends of login profile */}

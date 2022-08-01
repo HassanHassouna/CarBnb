@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import PaidIcon from "@mui/icons-material/Paid";
+import Chip from "@mui/material/Chip";
 import AirlineSeatReclineExtraIcon from "@mui/icons-material/AirlineSeatReclineExtra";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -21,29 +22,36 @@ const styleBox1 = {
 
 const styleBox2 = {
   display: "flex",
-  justifyContent: "flex-end",
-  my: "10px",
+  alignItems: "center",
+  width: "100%",
 };
 
-const styleBox3 = {
-  component: "div",
-  marginLeft: "10px",
-  variant: "h8",
-  fontSize: "16px",
-  color: "text.secondary",
+const typographyStyle = {
+  padding: "5px",
+};
+const chipStyle = {
+  border: "none",
 };
 
-const VehicleCard = (props) => {
+const VehicleCard = ({
+  page,
+  profile_picture,
+  brand,
+  model,
+  year,
+  number_of_seats,
+  price_per_day,
+  type,
+  location,
+  engine,
+  gear,
+}) => {
   const handleDeleteClick = (e) => {
-    console.log(
-      `implement here the Delete click handler of car with id ${props.item.id}`
-    );
+    console.log(`implement here the Delete click handler of car with `);
   };
 
   const handleEditClick = (e) => {
-    console.log(
-      `implement here the Edit click handler of car with id ${props.item.id}`
-    );
+    console.log(`implement here the Edit click handler of car with id `);
   };
 
   return (
@@ -51,8 +59,8 @@ const VehicleCard = (props) => {
       <CardMedia
         component="img"
         height="200"
-        image={props.item.img}
-        alt={props.item.brand + props.item.model}
+        image={profile_picture}
+        alt={brand + model}
       />
       <CardContent>
         <Box sx={styleBox1}>
@@ -64,19 +72,11 @@ const VehicleCard = (props) => {
               fontWeight={"bold"}
               component="div"
             >
-              {props.item.brand}
-              <Typography
-                component="div"
-                marginLeft="10px"
-                variant="h8"
-                color="text.secondary"
-              >
-                {props.item.type}
-              </Typography>
+              {brand}
             </Typography>
           </Box>
           <Typography variant="h7" color="text.secondary">
-            {props.item.model}
+            {model}
           </Typography>
           <Typography
             variant="h8"
@@ -88,114 +88,76 @@ const VehicleCard = (props) => {
             gap="8px"
           >
             <LocationOnIcon color="primary" fontSize={"10px"} />
-            {props.item.location}
+            {location}
           </Typography>
-          <Box display="flex" gap="18px" marginTop="20px">
+
+          <Box sx={styleBox2} justifyContent="space-between">
+            <Chip
+              icon={<AirlineSeatReclineExtraIcon />}
+              label={` ${number_of_seats} seats `}
+              variant="outlined"
+              sx={chipStyle}
+            />
+            <Chip
+              icon={<LocalGasStationIcon />}
+              label={`${engine}`}
+              variant="outlined"
+              sx={chipStyle}
+            />
+            <Chip
+              icon={<ManageHistoryIcon />}
+              label={`${gear}`}
+              variant="outlined"
+              sx={chipStyle}
+            />
+          </Box>
+          <Box
+            sx={styleBox2}
+            justifyContent="flex-end"
+            display={"flex"}
+            flexDirection="column"
+          >
+            <PaidIcon color="primary" fontSize={"10px"} />
             <Typography
-              display="flex"
-              flexDirection="column"
-              variant="h6"
-              gap="5px"
+              justifyContent="flex-end"
+              display={"flex"}
+              sx={typographyStyle}
+              variant="h7"
               fontWeight={"bold"}
-              component="box"
             >
-              <Typography sx={styleBox3}>
-                <AirlineSeatReclineExtraIcon color="primary" />
-                {` ${props.item.seats} seats `}
-              </Typography>
+              {`${price_per_day} /day`}
             </Typography>
-            <Typography
-              display="flex"
-              flexDirection="column"
-              variant="h"
-              gap="5px"
-              fontWeight={"bold"}
-              component="box"
-            >
-              <Typography
-                display="flex"
-                flexDirection="column"
-                variant="h6"
-                gap="5px"
-                fontWeight={"bold"}
-                component="box"
-              >
-                <Typography sx={styleBox3}>
-                  <LocalGasStationIcon color="primary" />
-                  {`${props.item.engine}`}
-                </Typography>
-              </Typography>
-            </Typography>
-            <Typography
-              display="flex"
-              flexDirection="column"
-              variant="h6"
-              gap="5px"
-              fontWeight={"bold"}
-              component="box"
-            >
-              <Typography
-                display="flex"
-                flexDirection="column"
-                variant="h6"
-                gap="5px"
-                fontWeight={"bold"}
-                component="box"
-              >
-                <Typography sx={styleBox3}>
-                  <ManageHistoryIcon color="primary" />
-                  {`${props.item.gear}`}
-                </Typography>
-              </Typography>
+            <Typography>
+              {page === "myCars" && (
+                <Box display="flex" flexDirection="row">
+                  <Button
+                    onClick={handleEditClick}
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{ marginLeft: "90px", width: "90px" }}
+                    startIcon={<DeleteOutlineIcon />}
+                  >
+                    edit
+                  </Button>
+                  <Button
+                    onClick={handleDeleteClick}
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      marginRight: "90px",
+                      marginLeft: "20px",
+                      width: "90px",
+                    }}
+                    startIcon={<DeleteOutlineIcon />}
+                  >
+                    delete
+                  </Button>
+                </Box>
+              )}
             </Typography>
           </Box>
-        </Box>
-        <Box>
-          <Typography
-            display="flex"
-            flexDirection="column"
-            variant="h6"
-            gap="5px"
-            fontWeight={"bold"}
-            component="box"
-          >
-            <Typography
-              display="flex"
-              flexDirection="row"
-              gap="8px"
-              variant="h6"
-              fontWeight={"bold"}
-            >
-              <PaidIcon color="primary" fontSize={"10px"} />
-              {"price"}
-            </Typography>
-            <Typography> {`${props.item.totalPrice} /day`}</Typography>
-
-            {props.page === "myCars" && (
-              <Box display="flex" flexDirection="row">
-                <Button
-                  onClick={handleEditClick}
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  style={{ marginLeft: "90px", width: "90px" }}
-                  startIcon={<DeleteOutlineIcon />}
-                >
-                  edit
-                </Button>
-                <Button
-                  onClick={handleDeleteClick}
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  style={{ marginLeft: "20px", width: "90px" }}
-                  startIcon={<DeleteOutlineIcon />}
-                >
-                  delete
-                </Button>
-              </Box>
-            )}
-          </Typography>
         </Box>
       </CardContent>
     </Card>

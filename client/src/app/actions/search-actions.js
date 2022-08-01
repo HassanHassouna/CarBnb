@@ -14,6 +14,19 @@ const searchFailureAction = () => ({
   type: actionTypes.SEARCH_VEHICLES_FAILURE,
 });
 
+const setSortHTLAction = () => ({
+  type: actionTypes.SET_SORT_HTL,
+});
+
+const setSortLTHAction = () => ({
+  type: actionTypes.SET_SORT_LTH,
+});
+
+const setPriceRangeAction = (range) => ({
+  type: actionTypes.SET_PRICE_RANG,
+  range,
+});
+
 export const search = (searchData) => {
   console.log("search", searchData);
   return async (dispatch) => {
@@ -29,5 +42,23 @@ export const search = (searchData) => {
     } catch (error) {
       dispatch(searchFailureAction());
     }
+  };
+};
+
+export const setPriceHTL = () => {
+  return (dispatch) => {
+    dispatch(setSortHTLAction());
+  };
+};
+
+export const setPriceLTH = () => {
+  return (dispatch) => {
+    dispatch(setSortLTHAction());
+  };
+};
+
+export const setPriceRange = (range) => {
+  return (dispatch) => {
+    dispatch(setPriceRangeAction(range));
   };
 };

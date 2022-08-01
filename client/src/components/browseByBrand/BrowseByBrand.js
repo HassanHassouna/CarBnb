@@ -8,13 +8,13 @@ import "swiper/css"
 import "swiper/css/pagination"
 import ListApiService from "../../services/list-api-service"
 import { vehicleModelsWithPhotos } from "./dummyData"
-import { fetchVehicles } from "../../app/actions/fetch-vehicles-actions"
+// import { fetchVehicles } from "../../app/actions/fetch-vehicles-actions";
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import Typography from "@mui/material/Typography"
 import { CardActionArea } from "@mui/material"
-import RatingOfCar from "../../components/Rating/Index"
+import RatingOfCar from "../../components/Rating/Rating"
 import { useNavigate } from "react-router-dom"
 const Testimonials = () => {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ const Testimonials = () => {
   const [vehicles, setVehicles] = React.useState([])
 
   useEffect(() => {
-    dispatch(fetchVehicles())
+    // dispatch(fetchVehicles())
     ListApiService.getBrandList().then((res) => {
       setVehicles(res)
     })

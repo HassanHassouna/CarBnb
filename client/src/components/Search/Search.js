@@ -1,28 +1,29 @@
-import React from "react"
-import { useDispatch } from "react-redux"
-import Fab from "@mui/material/Fab"
-import Box from "@mui/material/Box"
-import TextField from "@mui/material/TextField"
-import Autocomplete from "@mui/material/Autocomplete"
-import LocationOnIcon from "@mui/icons-material/LocationOn"
-import Grid from "@mui/material/Grid"
-import Typography from "@mui/material/Typography"
-import parse from "autosuggest-highlight/parse"
-import throttle from "lodash/throttle"
-import Datee from "./Date/Index"
-import Time from "./Time/Index"
-import SearchIcon from "@mui/icons-material/Search"
-import IconButton from "@mui/material/IconButton"
-import "./style.css"
-import { search } from "../../app/actions/search-actions"
-
-const GOOGLE_MAPS_API_KEY = 'AIzaSyAsJrza-9qgAdE5FUD2f26prJwV9vCt7wA';
+import { useState, useRef, useMemo, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Fab from "@mui/material/Fab";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import parse from "autosuggest-highlight/parse";
+import throttle from "lodash/throttle";
+import Datee from "./Date/Index";
+import Time from "./Time/Index";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import "./style.css";
+import { search } from "../../app/actions/search-actions";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
+const GOOGLE_MAPS_API_KEY = "AIzaSyAsJrza-9qgAdE5FUD2f26prJwV9vCt7wA";
 
 function loadScript(src, id) {
   return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.setAttribute('async', '');
-    script.setAttribute('id', id);
+    const script = document.createElement("script");
+    script.setAttribute("async", "");
+    script.setAttribute("id", id);
     script.src = src;
     script.onload = resolve;
     script.onerror = reject;
@@ -35,36 +36,38 @@ const autocompleteService = {
 };
 
 export default function Search() {
+  const loading = useSelector((state) => state.viewSlice.isLoading);
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState('');
-  const [options, setOptions] = React.useState([]);
-  const loaded = React.useRef(false);
-  const whereRef = React.useRef();
-  const fromRef = React.useRef();
-  const untilRef = React.useRef();
-  const timeToPickRef = React.useRef();
-  const timeToDropRef = React.useRef();
+  const navigate = useNavigate();
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const loaded = useRef(false);
+  const whereRef = useRef();
+  const fromRef = useRef();
+  const untilRef = useRef();
+  const timeToPickRef = useRef();
+  const timeToDropRef = useRef();
 
   const searchHandler = () => {
-    console.log("fromRef", fromRef.current.value, typeof fromRef.current.value)
-    console.log(
-      "timeToPick",
-      timeToPickRef.current.value,
-      typeof timeToPickRef.current.value
-    )
-    const yearFrom = fromRef.current.value.split("/")[2]
-    const monthFrom = fromRef.current.value.split("/")[0]
-    const dayFrom = fromRef.current.value.split("/")[1]
-    const hoursFrom = timeToPickRef.current.value.split(":")[0]
-    const minutesFrom = timeToPickRef.current.value.split(":")[1]
+    const dateFrom = fromRef.current.value.split("/");
+    const dateUntil = untilRef.current.value.split("/");
+    const timeFrom = timeToPickRef.current.value.split(":");
+    const timeUntil = timeToDropRef.current.value.split(":");
 
-    const yearUntil = untilRef.current.value.split("/")[2]
-    const monthUntil = untilRef.current.value.split("/")[0]
-    const dayUntil = untilRef.current.value.split("/")[1]
-    const hoursUntil = timeToDropRef.current.value.split(":")[0]
-    const minutesUntil = timeToDropRef.current.value.split(":")[1]
+    const yearFrom = dateFrom[2];
+    const monthFrom = dateFrom[0];
+    const dayFrom = dateFrom[1];
+    const hoursFrom = timeFrom[0];
+    const minutesFrom = timeFrom[1];
 
+    const yearUntil = dateUntil[2];
+    const monthUntil = dateUntil[0];
+    const dayUntil = dateUntil[1];
+    const hoursUntil = timeUntil[0];
+    const minutesUntil = timeUntil[1];
+
+    console.log("where", whereRef.current.value);
     const searchDataObject = {
       location: whereRef.current.value,
       start_order: new Date(
@@ -81,16 +84,30 @@ export default function Search() {
         hoursUntil,
         minutesUntil
       ),
+    };
+    // validate data
+    if (searchDataObject.location === "") {
+      whereRef.current.focus();
+      whereRef.current.placeholder = "Please enter a location";
+      return;
+    } else if (timeToPickRef.current.value === "") {
+      timeToPickRef.current.focus();
+      alert("Please enter a time");
+    } else if (timeToDropRef.current.value === "") {
+      timeToDropRef.current.focus();
+      alert("Please enter a time");
+    } else {
+      dispatch(search(searchDataObject));
+      navigate("/searchResult");
     }
-    dispatch(search(searchDataObject))
-  }
+  };
 
-  if (typeof window !== 'undefined' && !loaded.current) {
-    if (!document.querySelector('#google-maps')) {
+  if (typeof window !== "undefined" && !loaded.current) {
+    if (!document.querySelector("#google-maps")) {
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
         document.body,
-        'google-maps'
+        "google-maps"
       ).then(() => {
         autocompleteService.current =
           new window.google.maps.places.AutocompleteService();
@@ -100,7 +117,7 @@ export default function Search() {
     }
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       throttle((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
@@ -108,13 +125,14 @@ export default function Search() {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
+
     if (!autocompleteService.current) {
       return undefined;
     }
 
-    if (inputValue === '') {
+    if (inputValue === "") {
       setOptions(value ? [value] : []);
       return undefined;
     }
@@ -140,6 +158,9 @@ export default function Search() {
     };
   }, [value, inputValue, fetch]);
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="container__searchBar">
       <div className="searchContainer">
@@ -147,7 +168,7 @@ export default function Search() {
           id="google-map-demo"
           sx={{ width: 400 }}
           getOptionLabel={(option) =>
-            typeof option === 'string' ? option : option.description
+            typeof option === "string" ? option : option.description
           }
           filterOptions={(x) => x}
           options={options}
@@ -164,10 +185,16 @@ export default function Search() {
           }}
           renderInput={(params) => (
             <TextField
+              variant="outlined"
               inputRef={whereRef}
               {...params}
               fullWidth
               placeholder="Where?"
+              sx={{
+                "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+                  borderStyle: "none",
+                },
+              }}
             />
           )}
           renderOption={(props, option) => {
@@ -187,7 +214,10 @@ export default function Search() {
                   <Grid item>
                     <Box
                       component={LocationOnIcon}
-                      sx={{ color: 'text.secondary', mr: 2 }}
+                      sx={{
+                        color: "text.secondary",
+                        mr: 2,
+                      }}
                     />
                   </Grid>
                   <Grid item xs>

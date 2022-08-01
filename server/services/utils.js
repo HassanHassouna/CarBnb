@@ -1,6 +1,6 @@
-const { Op } = require("sequelize");
-const { Car, Reservation } = require("../db/models");
-const reservation = require("./reservation");
+const { Op } = require('sequelize');
+const { Car, Reservation } = require('../db/models');
+const reservation = require('./reservation');
 
 class UtilsService {
   constructor() {}
@@ -22,12 +22,16 @@ class UtilsService {
       },
     });
     const unAvailableCars = booking.map((x) => x.car_id);
-    return await Car.findAll({
+    console.log(booking, 'booking');
+    console.log(unAvailableCars, 'unAvailableCars');
+    const findall = await Car.findAll({
       where: {
         id: { [Op.notIn]: unAvailableCars },
-        location: { [Op.like]: "%" + location + "%" },
+        location: { [Op.like]: '%' + location + '%' },
       },
     });
+    console.log(findall, 'available cars');
+    return findall;
   };
 
   // getCarsToPresent = async () => {
