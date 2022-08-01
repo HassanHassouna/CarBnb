@@ -62,16 +62,16 @@ const DetailsContainer = (props) => {
           {data.map((item) => {
             return (
               <SwiperSlide className="swiper-slide">
-                {/* <VehicleCard
+                <VehicleCard
                   item={{ ...item, seats: 5, engine: "petrol", gear: "Auto" }}
                   page="myCars"
                 >
                   {" "}
-                </VehicleCard> */}
-                <ReservationCard
+                </VehicleCard>
+                {/* <ReservationCard
                   item={item}
                   user={"Yuval Bader"}
-                ></ReservationCard>
+                ></ReservationCard> */}
               </SwiperSlide>
             );
           })}
