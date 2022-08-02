@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import SearchPlaceHolder from "./SearchPlaceHolder";
 import ErrorPlaceHolder from "./ErrorPlaceHolder";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const SearchResultsPage = () => {
   const filteredVehicles = useSelector(

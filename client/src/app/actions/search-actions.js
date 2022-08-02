@@ -38,6 +38,7 @@ export const search = (searchData) => {
         acc[vehicle.id] = vehicle;
         return acc;
       }, {});
+      console.log("vehiclesById", vehiclesById);
       dispatch(searchSuccessAction(vehiclesById));
     } catch (error) {
       dispatch(searchFailureAction());

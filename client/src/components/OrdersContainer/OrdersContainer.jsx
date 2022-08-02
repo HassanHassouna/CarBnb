@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReservationCard from "../ReservationCard/ReservationCard";
-import VehicleCard from "../vehicle-card/VehicleCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
-import dummyData from "../../pages/MyProfile/dummyData";
 import { useOutletContext } from "react-router-dom";
 import { fetchVehicles } from "../../app/actions/fetch-vehicles-actions";
 
@@ -24,7 +22,7 @@ const OrdersContainer = (props, navBar) => {
   const ordersList = Object.values(myOrders);
   const reservationsList = Object.values(myReservations);
   const { page } = props;
-  const data = page === "trips" ? ordersList : reservationsList;
+  const data = page === "trips" ? ordersList : [];
   const pageLabel = `No past ${page}`;
   const pageTitle = `My ${page}`;
   handleOutletChange(page);
@@ -69,24 +67,35 @@ const OrdersContainer = (props, navBar) => {
           className="mySwiper"
         >
           {data.map(
-            ({ car_id,profile_picture, brand, model , type, location,  start_date, end_date, total_price, user_id, user_name  }) => {
-              console.log("item", car_id, start_date, end_date, total_price);
+            ({
+              car_id,
+              profile_picture,
+              brand,
+              model,
+              type,
+              location,
+              start_date,
+              end_date,
+              total_price,
+              user_id,
+              user_name,
+            }) => {
               return (
                 <SwiperSlide className="swiper-slide">
                   {/* <VehicleCard page="myCars" item={item}></VehicleCard> */}
-                  <ReservationCard 
-                  page={page}
-                  car_id={car_id}
-                  profile_picture={profile_picture}
-                  brand={brand}
-                  model={model}
-                  type={type}
-                  location={location}
-                  start_date={start_date}
-                  end_date={end_date}
-                  total_price={total_price}
-                  user_id={user_id}
-                  user_name={user_name}
+                  <ReservationCard
+                    page={page}
+                    car_id={car_id}
+                    profile_picture={profile_picture}
+                    brand={brand}
+                    model={model}
+                    type={type}
+                    location={location}
+                    start_date={start_date}
+                    end_date={end_date}
+                    total_price={total_price}
+                    user_id={user_id}
+                    user_name={user_name}
                   ></ReservationCard>
                 </SwiperSlide>
               );

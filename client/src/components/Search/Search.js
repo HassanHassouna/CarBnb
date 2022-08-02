@@ -37,6 +37,7 @@ const autocompleteService = {
 
 export default function Search() {
   const loading = useSelector((state) => state.viewSlice.isLoading);
+  const isError = useSelector((state) => state.viewSlice.isError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [value, setValue] = useState(null);
@@ -160,6 +161,11 @@ export default function Search() {
   if (loading) {
     return <LoadingSpinner />;
   }
+  
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
     <div className="container__searchBar">
       <div className="searchContainer">

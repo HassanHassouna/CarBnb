@@ -1,5 +1,14 @@
+import Simplert from "react-simplert";
+
 const ErrorPlaceHolder = () => {
-  return <div>error fetching cars</div>;
+  return(
+    <Simplert
+      showSimplert={true}
+      type={"error"}
+      title={"Error!"}
+      message={"An error ocured, please try again"}
+    />
+  );
 };
 
 export default ErrorPlaceHolder;

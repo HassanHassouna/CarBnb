@@ -2,12 +2,10 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Devider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PaidIcon from "@mui/icons-material/Paid";
-import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "@mui/material";
 

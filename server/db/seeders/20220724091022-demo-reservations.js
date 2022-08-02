@@ -1,11 +1,10 @@
 "use strict";
-// new Date('1995-12-17T03:24:00');
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Reservations", [
       {
-        start_date: new Date("2022, 7, 30"),
-        end_date: new Date("2022, 8, 3"),
+        start_date: new Date("2022, 1, 1"),
+        end_date: new Date("2022, 1, 7"),
         total_price: 500,
         start_time: new Date(),
         end_time: new Date(),
