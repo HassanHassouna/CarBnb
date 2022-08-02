@@ -24,7 +24,7 @@ const OrdersContainer = (props, navBar) => {
   const ordersList = Object.values(myOrders);
   const reservationsList = Object.values(myReservations);
   const { page } = props;
-  const data = page === "trips" ? dummyData : dummyData;
+  const data = page === "trips" ? ordersList : reservationsList;
   const pageLabel = `No past ${page}`;
   const pageTitle = `My ${page}`;
   handleOutletChange(page);
@@ -63,19 +63,35 @@ const OrdersContainer = (props, navBar) => {
           slidesPerView={3}
           spaceBetween={10}
           pagination={{
-          clickable: true,
+            clickable: true,
           }}
           modules={[Pagination]}
           className="mySwiper"
         >
-          {data.map((item) => {
-            return (
-              <SwiperSlide className="swiper-slide">
-                <VehicleCard page="myCars" item={item}></VehicleCard>
-                {/* <ReservationCard item={item}></ReservationCard> */}
-              </SwiperSlide>
-            );
-          })}
+          {data.map(
+            ({ car_id,profile_picture, brand, model , type, location,  start_date, end_date, total_price, user_id, user_name  }) => {
+              console.log("item", car_id, start_date, end_date, total_price);
+              return (
+                <SwiperSlide className="swiper-slide">
+                  {/* <VehicleCard page="myCars" item={item}></VehicleCard> */}
+                  <ReservationCard 
+                  page={page}
+                  car_id={car_id}
+                  profile_picture={profile_picture}
+                  brand={brand}
+                  model={model}
+                  type={type}
+                  location={location}
+                  start_date={start_date}
+                  end_date={end_date}
+                  total_price={total_price}
+                  user_id={user_id}
+                  user_name={user_name}
+                  ></ReservationCard>
+                </SwiperSlide>
+              );
+            }
+          )}
         </Swiper>
       )}
     </>

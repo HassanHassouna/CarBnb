@@ -15,11 +15,13 @@ class ReservationService {
   };
 
   getReservationsByCustomerId = async (customerId) => {
-    return Reservation.findAll({
+    const reserv = Reservation.findAll({
       where: {
         user_id: customerId,
       },
     });
+    console.log("%creservation.js line:23 reserv", "color: #007acc;", reserv);
+    return reserv;
   };
 
   getReservationById = async (reservationId) => {

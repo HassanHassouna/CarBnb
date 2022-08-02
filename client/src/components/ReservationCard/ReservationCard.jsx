@@ -24,19 +24,27 @@ const styleBox2 = {
   my: "10px",
 };
 
-const ReservationCard = (props) => {
-  const [page, setPage] = useState("");
-
-  useEffect(() => {
-    setPage(props.page);
-  }, [props.page]);
+const ReservationCard = ({
+  page,
+  car_id,
+  profile_picture,
+  brand,
+  model,
+  type,
+  location,
+  start_date,
+  end_date,
+  total_price,
+  user_id,
+  user_name,
+}) => {
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         height="200"
-        image={props.item.img}
+        image={profile_picture}
         alt="Mercedes  CLS 450 coupe"
       />
       <CardContent>
@@ -49,19 +57,19 @@ const ReservationCard = (props) => {
               fontWeight={"bold"}
               component="div"
             >
-              {props.item.brand}
+              {brand}
               <Typography
                 component="div"
                 marginLeft="10px"
                 variant="h8"
                 color="text.secondary"
               >
-                {props.item.type}
+                {type}
               </Typography>
             </Typography>
           </Box>
           <Typography variant="h7" color="text.secondary">
-            {props.item.model}
+            {model}
           </Typography>
           <Typography
             variant="h8"
@@ -76,7 +84,7 @@ const ReservationCard = (props) => {
               <Avatar>
                 {
                   //split the user name by space and take the first letter of each word
-                  props.user
+                  user_name
                     .split(" ")
                     .map((word) => word[0])
                     .join("")
@@ -95,13 +103,13 @@ const ReservationCard = (props) => {
                   style={{ textDecoration: "none" }}
                   href={`https://fullstackmondayu.monday.com/boards/2949023880`} // navigate here to user profile page
                 >
-                  {props.user}
+                  {user_name}
                 </Link>
               </Box>
             </Box>
             <Box marginRigth={"40px"} marginTop={"10px"} width={"140px"}>
               <LocationOnIcon color="primary" fontSize={"10px"} />
-              {props.item.location}
+              {location}
             </Box>
           </Typography>
           <Box display="flex" gap="40px" marginTop="20px">
@@ -123,7 +131,7 @@ const ReservationCard = (props) => {
                 <CalendarMonthIcon color="primary" fontSize={"10px"} />
                 {"Start Date "}
               </Typography>
-              <Typography> {props.item.startDate}</Typography>
+              <Typography> {start_date}</Typography>
             </Typography>
             <Typography
               display="flex"
@@ -143,7 +151,7 @@ const ReservationCard = (props) => {
                 <CalendarMonthIcon color="primary" fontSize={"10px"} />
                 {"End Date "}
               </Typography>
-              <Typography> {props.item.EndDate}</Typography>
+              <Typography> {end_date}</Typography>
             </Typography>
           </Box>
         </Box>
@@ -166,7 +174,7 @@ const ReservationCard = (props) => {
               <PaidIcon color="primary" fontSize={"10px"} />
               {"Total Price"}
             </Typography>
-            <Typography> {`${props.item.totalPrice} $`}</Typography>
+            <Typography> {`${total_price} $`}</Typography>
           </Typography>
         </Box>
       </CardContent>

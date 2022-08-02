@@ -1,10 +1,10 @@
-import VehiclesListContainer from '../../components/vehicles-list/VehiclesListContainer';
-import FilterResultsBar from '../../components/filterSearchResultsBar/FilterResultsBar';
-import { useSelector } from 'react-redux';
-import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
-import SearchPlaceHolder from './SearchPlaceHolder';
-import ErrorPlaceHolder from './ErrorPlaceHolder';
-import { useState } from 'react';
+import VehiclesListContainer from "../../components/vehicles-list/VehiclesListContainer";
+import FilterResultsBar from "../../components/filterSearchResultsBar/FilterResultsBar";
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import SearchPlaceHolder from "./SearchPlaceHolder";
+import ErrorPlaceHolder from "./ErrorPlaceHolder";
+import { useState } from "react";
 
 const SearchResultsPage = () => {
   const filteredVehicles = useSelector(
@@ -27,6 +27,14 @@ const SearchResultsPage = () => {
     );
   }
 
+  if (isError) {
+    return (
+      <section>
+        <ErrorPlaceHolder />
+      </section>
+    );
+  }
+
   return (
     <section>
       {isLoading && <LoadingSpinner />}
@@ -36,7 +44,6 @@ const SearchResultsPage = () => {
           <VehiclesListContainer vehicles={filteredVehicles} />
         </div>
       )}
-      {isError && !isLoading && <ErrorPlaceHolder />}
     </section>
   );
 };

@@ -25,6 +25,28 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        start_date: new Date("2022, 7, 30"),
+        end_date: new Date("2022, 8, 3"),
+        total_price: 200,
+        start_time: new Date(),
+        end_time: new Date(),
+        user_id: 4,
+        car_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        start_date: new Date("2022, 7, 30"),
+        end_date: new Date("2022, 8, 3"),
+        total_price: 200,
+        start_time: new Date(),
+        end_time: new Date(),
+        user_id: 4,
+        car_id: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 
