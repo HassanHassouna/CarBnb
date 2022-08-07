@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { useSelector } from "react-redux"
 import { green } from "@mui/material/colors"
 import useMediaQuery from "@mui/material/useMediaQuery"
+import { useNavigate } from "react-router-dom"
 
 export default function ReserveCar({ id, text, state }) {
   const matches = useMediaQuery("(min-width:1160px)")
@@ -32,14 +33,20 @@ export default function ReserveCar({ id, text, state }) {
       border: "solid 1px #e0e0e0",
     },
   }))
+  const navigate = useNavigate()
+  const [carId, setCarId] = useState(id)
   const userId = useSelector((state) => state.userSlice.userObject.id)
   const [open, setOpen] = useState(false)
   const [car, setCar] = useState(null)
-  const handleOpen = () => {
+  const [price, setPrice] = useState(null)
+  const handleOpen = async () => {
     setOpen(true)
+    await ListApiService.getCarByID(id).then((car) => {
+      setCar(car)
+    })
+    setPrice(car?.price_per_day)
   }
   const handleClose = () => setOpen(false)
-  const [carId, setCarId] = useState(id)
   const classes = useStyles()
   const [datesAvailable, setDatesAvailable] = React.useState(true)
   const monthFrom = state.dateFrom.toLocaleDateString().split("/")[0] - 2
@@ -48,8 +55,8 @@ export default function ReserveCar({ id, text, state }) {
   const monthUntil = state.dateUntil.toLocaleDateString().split("/")[0] - 2
   const yearUntil = state.dateUntil.toLocaleDateString().split("/")[2]
   const dayUntil = state.dateUntil.toLocaleDateString().split("/")[1]
-  const [timeFrom, setTimeFrom] = React.useState()
-  const [timeUntil, setTimeUntil] = React.useState()
+  const [timeFrom, setTimeFrom] = React.useState(state.timeToPickRef)
+  const [timeUntil, setTimeUntil] = React.useState(state.timeToDropRef)
   const [dataToSend, setDataToSend] = React.useState(null)
   const [newDateFrom, setNewDateFrom] = React.useState(
     new Date(yearFrom, monthFrom, dayFrom)
@@ -60,12 +67,6 @@ export default function ReserveCar({ id, text, state }) {
   const [res, setRes] = React.useState(false)
   const fromRef = React.useRef()
   const untilRef = React.useRef()
-  useEffect(() => {
-    ListApiService.getCarByID(id).then((car) => {
-      setCar(car)
-    })
-  }, [id])
-
   const getDates = useCallback(() => {
     const diffTime = Math.abs(newDateUntil - newDateFrom)
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
@@ -84,6 +85,9 @@ export default function ReserveCar({ id, text, state }) {
   const getAvailableDate = useCallback(() => {
     setNewDateFrom(newDateFrom)
     setNewDateUntil(newDateUntil)
+    console.log("calc", calcDays)
+    console.log("car:", car)
+    console.log("price", price)
     const data = {
       start_order: newDateFrom,
       end_order: newDateUntil,
@@ -91,7 +95,7 @@ export default function ReserveCar({ id, text, state }) {
       user_id: userId,
       start_time: timeFrom,
       end_time: timeUntil,
-      total_price: car?.price_per_day * calcDays,
+      total_price: calcDays * car?.price_per_day,
     }
     setDataToSend(data)
     ListApiService.isCarAvailable(data).then((res) => {
@@ -103,11 +107,11 @@ export default function ReserveCar({ id, text, state }) {
         setDatesAvailable(true)
       }
     })
-  }, [newDateFrom, newDateUntil, timeFrom, timeUntil])
+  }, [newDateFrom, newDateUntil, timeFrom, timeUntil, price])
 
   useMemo(() => {
     return getAvailableDate()
-  }, [newDateFrom, newDateUntil, timeFrom, timeUntil])
+  }, [newDateFrom, newDateUntil, timeFrom, timeUntil, price])
   // #############################################################################
   const [loading, setLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
@@ -132,6 +136,7 @@ export default function ReserveCar({ id, text, state }) {
 
   const handleButtonClick = () => {
     if (!loading) {
+      console.log("data", dataToSend)
       setSuccess(false)
       setLoading(true)
       timer.current = window.setTimeout(() => {
@@ -143,7 +148,8 @@ export default function ReserveCar({ id, text, state }) {
             setTimeout(() => {
               handleClose()
             }, 2000)
-            window.location.href("/")
+            navigate("/")
+            setResult("Complete Reservation")
           } else if (loading) {
             setResult("Preform Reservation")
           } else {
@@ -157,96 +163,101 @@ export default function ReserveCar({ id, text, state }) {
         })
       }, 2000)
       setSuccess(false)
-      setResult("Complete Reservation")
     }
   }
   // #############################################################################
-  if (car) {
-    return (
-      <div>
-        <Button onClick={handleOpen}>{text}</Button>
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={open}>
-            <Box sx={style}>
-              <div className="sideSearch_container">
-                <div>
-                  <Typography variant="h6" gutterBottom>
-                    <span style={{ fontWeight: "bold" }}>
-                      {car?.price_per_day}$
-                    </span>{" "}
-                    / Day
-                    <hr style={{ width: "18%" }} />
-                    <div>
-                      US ${parseInt(car?.price_per_day) * calcDays} est.total
-                    </div>
-                  </Typography>
-                  <Typography
-                    sx={{ marginTop: "1vh", width: "100%", textAlign: "start" }}
-                    variant="h6"
-                  >
-                    Trip start
-                  </Typography>
-                  <div className="date_time">
-                    <DateToPick
-                      classes={classes}
-                      setDataFrom={setNewDateFrom}
-                      ref={fromRef}
-                      label="From"
-                      dateFrom={newDateFrom}
-                    />
-                    <Time label="from" time={135} setTimeFrom={setTimeFrom} />
+
+  return (
+    <div>
+      <Button onClick={handleOpen}>{text}</Button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <div className="sideSearch_container">
+              <div>
+                <Typography variant="h6" gutterBottom>
+                  <span style={{ fontWeight: "bold" }}>
+                    {car?.price_per_day}$
+                  </span>{" "}
+                  / Day
+                  <hr style={{ width: "18%" }} />
+                  <div>
+                    US ${parseInt(car?.price_per_day) * calcDays} est.total
                   </div>
-                  <Typography
-                    sx={{ marginTop: "1vh", width: "100%", textAlign: "start" }}
-                    variant="h6"
-                  >
-                    Trip end
-                  </Typography>
-                  <div className="date_time">
-                    <DateToPick
-                      classes={classes}
-                      setDataUntil={setNewDateUntil}
-                      ref={untilRef}
-                      label="Until"
-                      dateUntil={newDateUntil}
-                    />
-                    <Time
-                      label="until"
-                      time={135}
-                      setTimeUntil={setTimeUntil}
-                    />
-                  </div>
+                </Typography>
+                <Typography
+                  sx={{ marginTop: "1vh", width: "100%", textAlign: "start" }}
+                  variant="h6"
+                >
+                  Trip start
+                </Typography>
+                <div className="date_time">
+                  <DateToPick
+                    classes={classes}
+                    setDataFrom={setNewDateFrom}
+                    ref={fromRef}
+                    label="From"
+                    dateFrom={newDateFrom}
+                  />
+                  <Time
+                    timeFrom={timeFrom}
+                    label="from"
+                    time={135}
+                    setTimeFrom={setTimeFrom}
+                  />
                 </div>
-                <div style={{ width: "100%" }}>
-                  <div className="sideSearch_continue">
-                    <Stack direction="row">
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100vw",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Box sx={{ m: 1, position: "relative", width: "100%" }}>
-                          <Button
-                            variant="contained"
-                            sx={buttonSx}
-                            disabled={datesAvailable}
-                            onClick={handleButtonClick}
-                          >
-                            {result}
-                          </Button>
-                          {/* {loading && (
+                <Typography
+                  sx={{ marginTop: "1vh", width: "100%", textAlign: "start" }}
+                  variant="h6"
+                >
+                  Trip end
+                </Typography>
+                <div className="date_time">
+                  <DateToPick
+                    classes={classes}
+                    setDataUntil={setNewDateUntil}
+                    ref={untilRef}
+                    label="Until"
+                    dateUntil={newDateUntil}
+                  />
+                  <Time
+                    label="until"
+                    timeUntil={timeUntil}
+                    time={135}
+                    setTimeUntil={setTimeUntil}
+                  />
+                </div>
+              </div>
+              <div style={{ width: "100%" }}>
+                <div className="sideSearch_continue">
+                  <Stack direction="row">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "100vw",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box sx={{ m: 1, position: "relative", width: "100%" }}>
+                        <Button
+                          variant="contained"
+                          sx={buttonSx}
+                          disabled={datesAvailable}
+                          onClick={handleButtonClick}
+                        >
+                          {result}
+                        </Button>
+                        {/* {loading && (
                             <CircularProgress
                               size={24}
                               sx={{
@@ -259,17 +270,15 @@ export default function ReserveCar({ id, text, state }) {
                               }}
                             />
                           )} */}
-                        </Box>
                       </Box>
-                    </Stack>
-                  </div>
+                    </Box>
+                  </Stack>
                 </div>
               </div>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
-    )
-  }
-  return null
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
+  )
 }
