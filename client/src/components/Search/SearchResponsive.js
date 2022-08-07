@@ -119,7 +119,6 @@ export default function SearchResponsive() {
       ).then(() => {
         autocompleteService.current =
           new window.google.maps.places.AutocompleteService()
-
         loaded.current = true
       })
     }
@@ -251,18 +250,6 @@ export default function SearchResponsive() {
       <div className="horizontal_line"></div>
       <Datee width="100%" ref={untilRef} label="Until" />
       <Time width="100%" ref={timeToDropRef} />
-      {/* <IconButton
-        color="primary"
-        aria-label="upload picture"
-        component="label"
-        onClick={searchHandler}
-      >
-        <Box>
-          <Fab size="small" color="primary" aria-label="search">
-            <SearchIcon />
-          </Fab>
-        </Box>
-      </IconButton> */}
       <Stack direction="row" sx={{ width: "100%" }} spacing={2}>
         <Button
           sx={{ width: "100%" }}

@@ -5,7 +5,10 @@
   flex-direction: column;
   justify-content: center;
 }
-
+.date_time {
+  display: flex;
+  flex-direction: column;
+}
 .sideSearch_start_trip {
   width: 100%;
   height: 100%;

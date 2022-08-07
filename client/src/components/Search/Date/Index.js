@@ -31,7 +31,7 @@ const Datee = forwardRef((props, ref) => {
           },
         }}
         onChange={(newValue) => {
-          if (window.location.href !== "http://localhost:3000/") {
+          if (window.location.href !== "/") {
             setValue(newValue)
             props.label === "From"
               ? props.setDataFrom(newValue)
