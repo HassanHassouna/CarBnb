@@ -48,25 +48,28 @@ const VehicleCard = ({
   id,
   state,
 }) => {
-  console.log("page:", page)
-  console.log("state:", state)
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        minWidth: 400,
+        display: "flex",
+        flexDirection: "column",
+        margin: "auto",
+      }}
+    >
       <CardMedia
         component="img"
         sx={{
-          objectFit: "cover",
-          height: "140px",
+          height: 200,
         }}
         image={profile_picture}
-        alt={""}
+        alt={profile_picture}
       />
       <CardContent>
         <Box sx={styleBox1}>
           <Box>
             <Typography
               display="flex"
-              flexDirection="row"
               variant="h6"
               fontWeight={"bold"}
               component="div"

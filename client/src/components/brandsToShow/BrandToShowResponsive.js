@@ -49,7 +49,7 @@ const BrandsToShowResponsive = () => {
       >
         {Object.keys(vehicles).map((index) => {
           return (
-            <SwiperSlide key={vehicles[index]?.id} className="testemonials">
+            <SwiperSlide key={vehicles[index]?.id} className="card">
               <Card
                 onClick={() => onClick(vehicles[index]?.id)}
                 className="card-brand"
