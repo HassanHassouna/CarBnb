@@ -12,24 +12,26 @@ import Stack from "@mui/material/Stack"
 import { makeStyles } from "@material-ui/core/styles"
 import { useSelector } from "react-redux"
 import { green } from "@mui/material/colors"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-}
-const useStyles = makeStyles(() => ({
-  noBorder: {
-    border: "solid 1px #e0e0e0",
-  },
-}))
 export default function ReserveCar({ id, text, state }) {
+  const matches = useMediaQuery("(min-width:1160px)")
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: matches ? 400 : 200,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  }
+  const useStyles = makeStyles(() => ({
+    noBorder: {
+      border: "solid 1px #e0e0e0",
+    },
+  }))
   const userId = useSelector((state) => state.userSlice.userObject.id)
   const [open, setOpen] = useState(false)
   const [car, setCar] = useState(null)
