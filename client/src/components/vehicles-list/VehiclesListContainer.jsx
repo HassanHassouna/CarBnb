@@ -58,4 +58,4 @@ const VehicleListContainer = ({ vehicles, state }) => {
   )
 }
 
-export default VehicleListContainer
+export default VehicleListContainer;
