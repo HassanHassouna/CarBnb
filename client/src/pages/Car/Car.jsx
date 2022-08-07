@@ -4,6 +4,7 @@ import "./style.css"
 import SideSearch from "../../components/SideSearch/SlideSearch"
 import { Overview } from "../../components/Overview/Overview"
 import Features from "../../components/Features/Features"
+import Search from "../../components/Search/Search"
 export const Car = () => {
   return (
     <div className="photoSwiper_container">
@@ -17,7 +18,8 @@ export const Car = () => {
         </div>
         <div className="right_side_container">
           <div className="side_search">
-            <SideSearch />
+            {/* <SideSearch /> */}
+            {/* <Search /> */}
           </div>
         </div>{" "}
       </div>

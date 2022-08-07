@@ -16,7 +16,7 @@ const style = {
   p: 4,
 }
 
-export default function Model({ pageName }) {
+export default function Model({ pageName, text, sx }) {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -24,7 +24,7 @@ export default function Model({ pageName }) {
   return (
     <>
       <Button
-        sx={{ ml: 4, color: "white", display: "block" }}
+        sx={sx ? sx : { ml: 4, color: text ? text : "white", display: "block" }}
         onClick={handleOpen}
       >
         {pageName}

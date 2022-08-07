@@ -17,9 +17,9 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { loginUser } from "../../app/actions/login-user-actions"
 
-const pagesIfVisitor = ["Learn more", "Log in", "Sign up"]
-const pagesIfLog = ["Learn more", "My profile"]
-const settingsIfLog = ["Profile", "Account", "Dashboard", "Logout"]
+const pagesIfVisitor = ["About us", "Log in"]
+const pagesIfLog = ["About us", "My profile"]
+const settingsIfLog = ["Logout"]
 
 const NavBarComponent = () => {
   const navigate = useNavigate()
@@ -127,6 +127,7 @@ const NavBarComponent = () => {
                       <MenuItem
                         key={page}
                         onClick={() => {
+                          navigate(`/${page.toLowerCase().replace(" ", "")}`)
                           handleCloseNavMenu()
                         }}
                       >
@@ -134,11 +135,33 @@ const NavBarComponent = () => {
                       </MenuItem>
                     )
                   })
-                : pagesIfVisitor.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  ))}
+                : pagesIfVisitor.map((page, index) => {
+                    if (page === "Log in") {
+                      return (
+                        <Model
+                          sx={{
+                            color: "black",
+                            display: "flex",
+                            m: "auto",
+                          }}
+                          key={index}
+                          text="black"
+                          pageName={page}
+                        />
+                      )
+                    }
+                    return (
+                      <Button
+                        key={page}
+                        onClick={() =>
+                          navigate(`/${page.toLowerCase().replace(" ", "")}`)
+                        }
+                        sx={{ color: "black", display: "block" }}
+                      >
+                        {page}
+                      </Button>
+                    )
+                  })}
             </Menu>
           </Box>
           {/* ends of menu to small devices */}
@@ -147,7 +170,7 @@ const NavBarComponent = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },

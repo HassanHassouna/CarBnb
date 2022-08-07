@@ -41,7 +41,7 @@ const DateForRes = forwardRef((props, ref) => {
           }
         }}
         renderInput={(params) => (
-          <TextField sx={{ minWidth: 145 }} {...params} />
+          <TextField sx={{ minWidth: "10vw" }} {...params} />
         )}
       />
     </LocalizationProvider>
