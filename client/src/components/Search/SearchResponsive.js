@@ -17,6 +17,8 @@ import IconButton from "@mui/material/IconButton"
 import "./style.css"
 import { search } from "../../app/actions/search-actions"
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner"
+import Button from "@mui/material/Button"
+import Stack from "@mui/material/Stack"
 const GOOGLE_MAPS_API_KEY = "AIzaSyAsJrza-9qgAdE5FUD2f26prJwV9vCt7wA"
 
 function loadScript(src, id) {
@@ -35,7 +37,7 @@ const autocompleteService = {
   current: null,
 }
 
-export default function Search() {
+export default function SearchResponsive() {
   const loading = useSelector((state) => state.viewSlice.isLoading)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -117,7 +119,6 @@ export default function Search() {
       ).then(() => {
         autocompleteService.current =
           new window.google.maps.places.AutocompleteService()
-
         loaded.current = true
       })
     }
@@ -168,10 +169,10 @@ export default function Search() {
     return <LoadingSpinner />
   }
   return (
-    <div className="searchContainer">
+    <div className="searchContainer_responsive">
       <Autocomplete
         id="google-map-demo"
-        sx={{ width: "20vw" }}
+        sx={{ width: "100%" }}
         getOptionLabel={(option) =>
           typeof option === "string" ? option : option.description
         }
@@ -243,24 +244,25 @@ export default function Search() {
           )
         }}
       />
-      <div className="vertical_line"></div>
-      <Datee ref={fromRef} label="From" />
-      <Time ref={timeToPickRef} />
-      <div className="vertical_line"></div>
-      <Datee ref={untilRef} label="Until" />
-      <Time ref={timeToDropRef} />
-      <IconButton
-        color="primary"
-        aria-label="upload picture"
-        component="label"
-        onClick={searchHandler}
-      >
-        <Box>
-          <Fab size="small" color="primary" aria-label="search">
-            <SearchIcon />
-          </Fab>
-        </Box>
-      </IconButton>
+      <div className="horizontal_line"></div>
+      <Datee width="100%" ref={fromRef} label="From" />
+      <Time width="100%" ref={timeToPickRef} />
+      <div className="horizontal_line"></div>
+      <Datee width="100%" ref={untilRef} label="Until" />
+      <Time width="100%" ref={timeToDropRef} />
+      <Stack direction="row" sx={{ width: "100%" }} spacing={2}>
+        <Button
+          sx={{ width: "100%" }}
+          color="primary"
+          aria-label="upload picture"
+          component="label"
+          onClick={searchHandler}
+          variant="contained"
+          endIcon={<SearchIcon />}
+        >
+          Search
+        </Button>
+      </Stack>
     </div>
   )
 }

@@ -11,8 +11,8 @@ import Time from "../Search/Time/Index"
 import Stack from "@mui/material/Stack"
 import { makeStyles } from "@material-ui/core/styles"
 import { useSelector } from "react-redux"
-import CircularProgress from "@mui/material/CircularProgress"
 import { green } from "@mui/material/colors"
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -119,6 +119,7 @@ export default function ReserveCar({ id, text, state }) {
         bgcolor: green[700],
       },
     }),
+    width: "100%",
   }
 
   React.useEffect(() => {
@@ -225,16 +226,16 @@ export default function ReserveCar({ id, text, state }) {
                   </div>
                 </div>
                 <div style={{ width: "100%" }}>
-                  <Typography
-                    sx={{ marginTop: "1vh", width: "100%", textAlign: "start" }}
-                    variant="h6"
-                  >
-                    Pick up & return location
-                  </Typography>
                   <div className="sideSearch_continue">
                     <Stack direction="row">
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Box sx={{ m: 1, position: "relative" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          width: "100vw",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Box sx={{ m: 1, position: "relative", width: "100%" }}>
                           <Button
                             variant="contained"
                             sx={buttonSx}

@@ -5,7 +5,6 @@ import SideSearch from "../../components/SideSearch/SlideSearch"
 import { Overview } from "../../components/Overview/Overview"
 import Features from "../../components/Features/Features"
 export const Car = () => {
-
   return (
     <div className="photoSwiper_container">
       <div className="photo_swiper">

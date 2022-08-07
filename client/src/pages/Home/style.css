@@ -1,0 +1,20 @@
+.container__searchBar {
+  display: flex;
+  height: 40vh;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0 40%;
+  background-image: url("https://resources.turo.com/f/81934/1984x800/493e2d1fde/hp_ny_992x400-2x_2.jpg");
+}
+
+.container__searchBar_responsive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0 40%;
+  background-image: url("https://resources.turo.com/f/81934/1984x800/493e2d1fde/hp_ny_992x400-2x_2.jpg");
+}

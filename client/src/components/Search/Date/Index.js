@@ -31,7 +31,7 @@ const Datee = forwardRef((props, ref) => {
           },
         }}
         onChange={(newValue) => {
-          if (window.location.href !== "http://localhost:3000/") {
+          if (window.location.href !== "/") {
             setValue(newValue)
             props.label === "From"
               ? props.setDataFrom(newValue)
@@ -41,7 +41,10 @@ const Datee = forwardRef((props, ref) => {
           }
         }}
         renderInput={(params) => (
-          <TextField sx={{ minWidth: 145 }} {...params} />
+          <TextField
+            sx={{ minWidth: props.width ? props.width : "10vw" }}
+            {...params}
+          />
         )}
       />
     </LocalizationProvider>

@@ -1,38 +1,40 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "@mui/material/Button";
-import ListVahicleDialog from "../list-new-vehicle-form/ListVehicleDialog";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
-import VehicleCard from "../vehicle-card/VehicleCard";
-import "swiper/css/pagination";
-import { fetchMyVehicles } from "../../app/actions/fetch-vehicles-actions";
-import "./MyCars.css";
+import { memo, useCallback, useEffect, useState } from "react"
+import { useOutletContext } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import Button from "@mui/material/Button"
+import ListVahicleDialog from "../list-new-vehicle-form/ListVehicleDialog"
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Pagination } from "swiper"
+import VehicleCard from "../vehicle-card/VehicleCard"
+import "swiper/css/pagination"
+import { fetchMyVehicles } from "../../app/actions/fetch-vehicles-actions"
+import "./MyCars.css"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 const MyCars = memo(() => {
-  const [isAddCarPressed, setIsAddCarPressed] = useState(false);
-  let data = useSelector((state) => state.vehiclesSlice.myVehicles);
-  data = Object.values(data);
-  const myId = useSelector((state) => state.userSlice.userObject.id);
-  const loading = useSelector((state) => state.viewSlice.isLoading);
-  const openFormHandler = () => setIsAddCarPressed(true);
-  const closeFormHandler = () => setIsAddCarPressed(false);
-  const handleOutletChange = useOutletContext();
-  const dispatch = useDispatch();
+  const matches = useMediaQuery("(min-width:1160px)")
+  const [isAddCarPressed, setIsAddCarPressed] = useState(false)
+  let data = useSelector((state) => state.vehiclesSlice.myVehicles)
+  data = Object.values(data)
+  const myId = useSelector((state) => state.userSlice.userObject.id)
+  const loading = useSelector((state) => state.viewSlice.isLoading)
+  const openFormHandler = () => setIsAddCarPressed(true)
+  const closeFormHandler = () => setIsAddCarPressed(false)
+  const handleOutletChange = useOutletContext()
+  const dispatch = useDispatch()
 
   const fetchMyData = useCallback((id) => {
-    if (id) dispatch(fetchMyVehicles(id));
-  }, []);
+    if (id) dispatch(fetchMyVehicles(id))
+  }, [])
 
   useEffect(() => {
-    fetchMyData(myId);
-  }, [myId]);
+    fetchMyData(myId)
+  }, [myId])
 
-  handleOutletChange("mycars");
+  handleOutletChange("mycars")
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner />
 
   const userHadNoCars = () => {
     return (
@@ -47,12 +49,24 @@ const MyCars = memo(() => {
         </div>
         <div>This is where you can access information about your cars</div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="details-view-container">
-      <p className="title"> My cars </p>
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          width: "100%",
+        }}
+        className="title"
+      >
+        {" "}
+        My cars{" "}
+      </p>
       {data.length === 0 && userHadNoCars()}
       {data.length !== 0 && (
         <Swiper
@@ -60,7 +74,7 @@ const MyCars = memo(() => {
             width: "100%",
             paddingBottom: "3rem",
           }}
-          slidesPerView={3}
+          slidesPerView={matches ? "3" : "1"}
           spaceBetween={10}
           pagination={{
             clickable: true,
@@ -110,7 +124,7 @@ const MyCars = memo(() => {
       </Button>
       <ListVahicleDialog open={isAddCarPressed} onClose={closeFormHandler} />
     </div>
-  );
-});
+  )
+})
 
-export default MyCars;
+export default MyCars
