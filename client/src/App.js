@@ -1,5 +1,5 @@
 import "./App.css"
-import React, { useEffect } from "react"
+import React from "react"
 import NavBarComponent from "./components/NavBar/NavBar"
 import AddVehicle from "./components/list-new-vehicle-form/ListNewCarForm"
 import MyProfile from "./pages/MyProfile/MyProfile"
@@ -10,16 +10,21 @@ import OrdersContainer from "./components/OrdersContainer/OrdersContainer"
 import "./App.css"
 import MyCars from "./components/MyCars/MyCars"
 import SearchResultsPage from "./pages/SearchResults/SearchResults"
+import AboutUs from "./pages/AboutUs/AboutUs"
 function App() {
   return (
     <>
       <NavBarComponent />
       <Routes>
         <Route path="/" exact element={<Home />} />
+        <Route path="/aboutus" exact element={<AboutUs />} />
         <Route path="/add-vehicle" exact element={<AddVehicle />} />
         <Route path="/MyProfile" element={<MyProfile />}>
           <Route index element={<OrdersContainer page="trips" />} />
-          <Route path="/MyProfile/trips" element={<OrdersContainer page="trips" />} />
+          <Route
+            path="/MyProfile/trips"
+            element={<OrdersContainer page="trips" />}
+          />
           <Route
             path="/MyProfile/reservations"
             element={<OrdersContainer page="reservations" />}
