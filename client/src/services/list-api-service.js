@@ -1,9 +1,9 @@
 import axios from 'axios';
-const BASE_URL = `http://localhost:8000/api/`;
-const CAR = `car/`;
-const RES = `reservation/`;
-const USER = `user/`;
-const UTILS = `utils/`;
+const BASE_URL = `/api`;
+const CAR = `/car`;
+const RES = `/reservation`;
+const USER = `/user`;
+const UTILS = `/utils`;
 
 class ListApiService {
   static async baseGet(url) {
