@@ -24,6 +24,15 @@ class ListApiService {
     });
   }
 
+  static async basePut(url, body) {
+    const userEmail = JSON.parse(localStorage.getItem('user')).email;
+    return axios.put(url, body, {
+      headers: {
+        Authorization: userEmail,
+      },
+    });
+  }
+
   static async getCarsList() {
     try {
       const response = await ListApiService.baseGet(BASE_URL + CAR);
@@ -56,6 +65,20 @@ class ListApiService {
       console.log(err.message);
     }
   }
+
+  static async editVehicle(vehicle) {
+    try {
+      const vehicleData = { ...vehicle };
+      const response = await ListApiService.basePut(
+        BASE_URL + CAR + `${vehicle.id}`,
+        vehicleData
+      );
+      return response;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   static async getCar(carId) {
     try {
       const response = await ListApiService.baseGet(
@@ -86,15 +109,6 @@ class ListApiService {
       console.log(err.message);
     }
   }
-
-  // static async getReservationByCarId(carId) {
-  //   try {
-  //     const response = await ListApiService.baseGet(BASE_URL + RES + `car/${carId}`);
-  //     return response.data;
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // }
 
   static async getMyReservations(userId) {
     try {

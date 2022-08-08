@@ -6,15 +6,30 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
-import TextFieldWarrper from './form/TextFieldWarrper';
-import SubmitButton from './form/SubmitButton';
-import { addVehicle } from '../../app/actions/add-vehicle-actions';
+import TextFieldWarrper from '../list-new-vehicle-form/form/TextFieldWarrper';
+import SubmitButton from '../list-new-vehicle-form/form/SubmitButton';
 
 import { useDispatch } from 'react-redux';
-import InputButton from './form/InputButton';
-import SelectWarrper from './form/Select';
+import InputButton from '../list-new-vehicle-form/form/InputButton';
+import SelectWarrper from '../list-new-vehicle-form/form/Select';
+import { editVehicle } from '../../app/actions/edit-vehicle-actions';
 
-const ListNewVehicleForm = ({ onSubmit }) => {
+const EditCarForm = ({
+  onSubmit,
+  profile_picture,
+  brand,
+  model,
+  year,
+  number_of_seats,
+  price_per_day,
+  description,
+  location,
+  gear,
+  gas,
+  engine,
+  type,
+  carId,
+}) => {
   const dispatch = useDispatch();
 
   const INITIAL_FORM_STATE = {
@@ -33,7 +48,7 @@ const ListNewVehicleForm = ({ onSubmit }) => {
   };
 
   const FORM_VALIDATION = Yup.object().shape({
-    profile_picture: Yup.string().required('required'),
+    /*     profile_picture: Yup.string().required('required'),
     brand: Yup.string().required('required'),
     model: Yup.string().required('required'),
     year: Yup.string().required('required'),
@@ -44,10 +59,10 @@ const ListNewVehicleForm = ({ onSubmit }) => {
     location: Yup.string().required('required'),
     gear: Yup.string().required('required'),
     gas: Yup.string().required('required'),
-    engine: Yup.string().required('required'),
+    engine: Yup.string().required('required'), */
   });
 
-  function addNewVehicleHandler(values) {
+  function editVehicleHandler(values) {
     const vehicleData = {
       profile_picture: values.profile_picture,
       brand: values.brand,
@@ -61,21 +76,22 @@ const ListNewVehicleForm = ({ onSubmit }) => {
       gear: values.gear,
       gas: values.gas,
       engine: values.engine,
+      id: carId,
     };
 
-    dispatch(addVehicle(vehicleData));
+    dispatch(editVehicle(vehicleData));
     onSubmit();
   }
 
   return (
     <Box sx={{ maxWidth: '50%', m: '20px' }}>
       <Typography variant="h6" component="div" sx={{ textAlign: 'center' }}>
-        Fill in your vahicle detailes
+        Change your Vehicle details
       </Typography>
       <Formik
         initialValues={{ ...INITIAL_FORM_STATE }}
         validationSchema={FORM_VALIDATION}
-        onSubmit={addNewVehicleHandler}
+        onSubmit={editVehicleHandler}
       >
         <Form>
           <Grid
@@ -155,10 +171,10 @@ const ListNewVehicleForm = ({ onSubmit }) => {
                 name="gas"
                 label="Gas"
                 options={{
-                  '14MPG': '14 MPG',
-                  '20MPG': '20 MPG',
-                  '21MPG': '21 MPG',
-                  '22MPG': '22 MPG',
+                  '14MPG': '14MPG',
+                  '20MPG': '20MPG',
+                  '21MPG': '21MPG',
+                  '22MPG': '22MPG',
                   Electric: 'Electric',
                 }}
               ></SelectWarrper>
@@ -189,7 +205,7 @@ const ListNewVehicleForm = ({ onSubmit }) => {
               alignItems="center"
               p={5}
             >
-              <SubmitButton text="Add Vehicle"></SubmitButton>
+              <SubmitButton text="Edit Vehicle"></SubmitButton>
             </Grid>
           </Grid>
         </Form>
@@ -197,4 +213,4 @@ const ListNewVehicleForm = ({ onSubmit }) => {
     </Box>
   );
 };
-export default ListNewVehicleForm;
+export default EditCarForm;

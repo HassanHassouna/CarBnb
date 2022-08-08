@@ -1,31 +1,27 @@
-import ListApiService from "../../services/list-api-service"
-import actionTypes from "./constants"
+import ListApiService from '../../services/list-api-service';
+import actionTypes from './constants';
 
-const fetchVehiclesRequestAction = () => ({
-  type: actionTypes.FETCH_VEHICLES_REQUEST,
-})
+const removeVehicleRequestAction = () => ({
+  type: actionTypes.REMOVE_VEHICLE_REQUEST,
+});
 
-const fetchVehiclesSuccessAction = (vehicles) => ({
-  type: actionTypes.FETCH_VEHICLES_SUCCESS,
-  vehicles,
-})
+const removeVehicleSuccessAction = (vehicleId) => ({
+  type: actionTypes.REMOVE_VEHICLE_SUCCESS,
+  vehicleId,
+});
 
-const fetchVehiclesFailureAction = () => ({
-  type: actionTypes.FETCH_VEHICLES_FAILURE,
-})
+const removeVehicleFailureAction = () => ({
+  type: actionTypes.REMOVE_VEHICLE_FAILURE,
+});
 
-export const fetchVehicles = () => {
+export const removeVehicle = (id) => {
   return async (dispatch) => {
-    dispatch(fetchVehiclesRequestAction())
+    dispatch(removeVehicleRequestAction());
     try {
-      const vehicles = await ListApiService.getList()
-      const vehiclesById = vehicles.reduce((acc, vehicle) => {
-        acc[vehicle.id] = vehicle
-        return acc
-      }, {})
-      dispatch(fetchVehiclesSuccessAction(vehiclesById))
+      const response = await ListApiService.deleteCar(id);
+      dispatch(removeVehicleSuccessAction(id));
     } catch (error) {
-      dispatch(fetchVehiclesFailureAction())
+      dispatch(removeVehicleFailureAction());
     }
-  }
-}
+  };
+};

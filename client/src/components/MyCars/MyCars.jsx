@@ -1,26 +1,28 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "@mui/material/Button";
-import ListVahicleDialog from "../list-new-vehicle-form/ListVehicleDialog";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
-import VehicleCard from "../vehicle-card/VehicleCard";
-import "swiper/css/pagination";
-import { fetchMyVehicles } from "../../app/actions/fetch-vehicles-actions";
-import "./MyCars.css";
+import { memo, useCallback, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from '@mui/material/Button';
+import ListVahicleDialog from '../list-new-vehicle-form/ListVehicleDialog';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
+import VehicleCard from '../vehicle-card/VehicleCard';
+import 'swiper/css/pagination';
+import { fetchMyVehicles } from '../../app/actions/fetch-vehicles-actions';
+import './MyCars.css';
 
 const MyCars = memo(() => {
+  const dispatch = useDispatch();
   const [isAddCarPressed, setIsAddCarPressed] = useState(false);
-  let data = useSelector((state) => state.vehiclesSlice.myVehicles);
-  data = Object.values(data);
+
+  const data = useSelector((state) => state.vehiclesSlice.myVehicles);
+  const myVehicles = Object.values(data);
   const myId = useSelector((state) => state.userSlice.userObject.id);
   const loading = useSelector((state) => state.viewSlice.isLoading);
+
   const openFormHandler = () => setIsAddCarPressed(true);
   const closeFormHandler = () => setIsAddCarPressed(false);
   const handleOutletChange = useOutletContext();
-  const dispatch = useDispatch();
 
   const fetchMyData = useCallback((id) => {
     if (id) dispatch(fetchMyVehicles(id));
@@ -30,7 +32,7 @@ const MyCars = memo(() => {
     fetchMyData(myId);
   }, [myId]);
 
-  handleOutletChange("mycars");
+  handleOutletChange('mycars');
 
   if (loading) return <LoadingSpinner />;
 
@@ -53,12 +55,12 @@ const MyCars = memo(() => {
   return (
     <div className="details-view-container">
       <p className="title"> My cars </p>
-      {data.length === 0 && userHadNoCars()}
-      {data.length !== 0 && (
+      {myVehicles.length === 0 && userHadNoCars()}
+      {myVehicles.length !== 0 && (
         <Swiper
           style={{
-            width: "100%",
-            paddingBottom: "3rem",
+            width: '100%',
+            paddingBottom: '3rem',
           }}
           slidesPerView={3}
           spaceBetween={10}
@@ -68,41 +70,26 @@ const MyCars = memo(() => {
           modules={[Pagination]}
           className="mySwiper"
         >
-          {data.map(
-            (
-              {
-                brand,
-                type,
-                model,
-                price_per_day,
-                gear,
-                location,
-                engine,
-                profile_picture,
-                number_of_seats,
-                user_id,
-              },
-              index
-            ) => {
-              return (
-                <SwiperSlide key={index} className="swiper-slide">
-                  <VehicleCard
-                    page={"myCars"}
-                    profile_picture={profile_picture}
-                    brand={brand}
-                    type={type}
-                    model={model}
-                    price_per_day={price_per_day}
-                    gear={gear}
-                    location={location}
-                    engine={engine}
-                    number_of_seats={number_of_seats}
-                    user_id={user_id}
-                  ></VehicleCard>
-                </SwiperSlide>
-              )
-            }
-          )}
+          {myVehicles.map((vehicle, index) => {
+            return (
+              <SwiperSlide key={index} className="swiper-slide">
+                <VehicleCard
+                  page={'myCars'}
+                  profile_picture={vehicle.profile_picture}
+                  brand={vehicle.brand}
+                  type={vehicle.type}
+                  model={vehicle.model}
+                  price_per_day={vehicle.price_per_day}
+                  gear={vehicle.gear}
+                  location={vehicle.location}
+                  engine={vehicle.engine}
+                  number_of_seats={vehicle.number_of_seats}
+                  user_id={vehicle.user_id}
+                  id={vehicle.id}
+                ></VehicleCard>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       )}
       <Button variant="contained" onClick={openFormHandler}>

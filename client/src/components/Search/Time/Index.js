@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
 const Time = forwardRef((props, ref) => {
   const classes = useStyles();
   const [time, setTime] = React.useState('');
+
   const handleChange = (event) => {
     if (window.location.href !== 'http://localhost:3000/') {
       if (props.label === 'from') {

@@ -15,7 +15,7 @@ function TextFieldWarrper({ name, ...moreProps }) {
     configTextField.helperText = meta.error;
   }
 
-  return <TextField {...configTextField} />;
+  return <TextField {...configTextField}></TextField>;
 }
 
 export default TextFieldWarrper;
