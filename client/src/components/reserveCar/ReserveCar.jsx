@@ -85,9 +85,6 @@ export default function ReserveCar({ id, text, state }) {
   const getAvailableDate = useCallback(() => {
     setNewDateFrom(newDateFrom)
     setNewDateUntil(newDateUntil)
-    console.log("calc", calcDays)
-    console.log("car:", car)
-    console.log("price", price)
     const data = {
       start_order: newDateFrom,
       end_order: newDateUntil,
@@ -136,7 +133,6 @@ export default function ReserveCar({ id, text, state }) {
 
   const handleButtonClick = () => {
     if (!loading) {
-      console.log("data", dataToSend)
       setSuccess(false)
       setLoading(true)
       timer.current = window.setTimeout(() => {

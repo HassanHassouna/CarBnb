@@ -58,7 +58,6 @@ const getCarsByUserId = async (req, res, next) => {
 const addCar = async (req, res, next) => {
   const newCar = req.body;
   try {
-    console.log("newCar:",newCar);
     const car = await CarsService.addCar(newCar);
     if (!car) {
       throw new Error("Failed to add car");
@@ -74,7 +73,6 @@ const updateCar = async (req, res, next) => {
   const updateCar = req.body;
   try {
     const car = await CarsService.updateCar(id, updateCar);
-    console.log(car);
     if (car[0] === 0) {
       // throw new Error("Unable to update car")
       return {};

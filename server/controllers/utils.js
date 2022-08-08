@@ -25,9 +25,7 @@ const myReservations = async (req, res, next) => {
 }
 
 const myOreders = async (req, res, next) => {
-  console.log("im here")
   const { id } = req.params
-  console.log("id",id)
 
   try {
     const myOrders = await UtilsService.getMyOrders(id)

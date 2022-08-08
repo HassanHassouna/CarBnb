@@ -127,9 +127,7 @@ export default function SideSearch() {
       end_order: dataUntil,
       car_id: state.currentVehicle.id,
     }
-    console.log("data", data)
     ListApiService.isCarAvailable(data).then((res) => {
-      console.log("res", res)
       if (res) {
         setDatesAvailable(false)
       } else {
