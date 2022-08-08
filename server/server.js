@@ -23,5 +23,6 @@ app.use("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "/client/build/index.html"));
 });
 
+console.log("here:",path.join(__dirname, "..", "/client/build/index.html"));
 app.listen(PORT, () => console.log(`App is Up on port ${PORT}`));
 module.exports = app;

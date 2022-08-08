@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "hello",
   "main": "index.js",
-  
   "scripts": {
     "start": "node server/server.js",
     "run": "node server/server.js",
