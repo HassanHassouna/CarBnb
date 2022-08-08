@@ -31,7 +31,7 @@ const Datee = forwardRef((props, ref) => {
           },
         }}
         onChange={(newValue) => {
-          if (window.location.href !== "https://vehiculo-app.herokuapp.com/") {
+          if (window.location.href !== "/") {
             setValue(newValue)
             props.label === "From"
               ? props.setDataFrom(newValue)

@@ -9,7 +9,7 @@ const Time = forwardRef((props, ref) => {
   const times = possibleTimes.find((time) => time === props.timeFrom);
   const [time, setTime] = React.useState('');
   const handleChange = (event) => {
-    if (window.location.href !== 'https://vehiculo-app.herokuapp.com/') {
+    if (window.location.href !== '/') {
       if (props.label === 'from') {
         props.setTimeFrom(event.target.value);
       } else {
