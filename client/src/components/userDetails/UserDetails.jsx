@@ -21,7 +21,6 @@ export default function PopModal({ userDetails }) {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  console.log(userDetails)
   return (
     <div>
       <Button sx={{ padding: 0 }} onClick={handleOpen}>

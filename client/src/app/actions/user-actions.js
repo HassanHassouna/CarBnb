@@ -81,8 +81,6 @@ export const fetchMyOrdAndRes = (id) => {
   return async (dispatch, getState) => {
     dispatch(fetchMyOrdAndResRequestAction());
     try {
-      // const id = getState().userSlice.userObject.id;
-      // console.log("fetchMyOrdAndRes:",id);
       const myOrders = ListApiService.getMyOrders(id);
       const myReservations = ListApiService.getMyReservations(id);
       const result = await Promise.all([myOrders, myReservations]);

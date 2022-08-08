@@ -17,7 +17,6 @@ import SelectWarrper from './form/Select';
 //import loc from 'list-of-cars';
 
 const ListNewVehicleForm = ({ onSubmit }) => {
-  //console.log(models.all());
   const dispatch = useDispatch();
 
   const INITIAL_FORM_STATE = {

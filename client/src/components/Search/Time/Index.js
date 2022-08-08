@@ -6,12 +6,10 @@ import "./style.css"
 
 const Time = forwardRef((props, ref) => {
   // pick the time from array that equals to the time in the from props
-  console.log("props", props)
   const times = possibleTimes.find((time) => time === props.timeFrom)
-  console.log("time:", times)
   const [time, setTime] = React.useState("")
   const handleChange = (event) => {
-    if (window.location.href !== "http://localhost:3000/") {
+    if (window.location.href !== "https://vehiculo-app.herokuapp.com/") {
       if (props.label === "from") {
         props.setTimeFrom(event.target.value)
       } else {
