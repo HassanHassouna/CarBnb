@@ -1,39 +1,50 @@
-import actionTypes from "../actions/constants"
+import actionTypes from '../actions/constants';
 
 const initialState = {
   myVehicles: {},
   mainPageVehicles: {},
-}
+};
 
 const vehiclesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_VEHICLES_SUCCESS: {
-      const { vehicles } = action
-      return { ...state, myVehicles: vehicles }
+      const { vehicles } = action;
+      return { ...state, myVehicles: vehicles, mainPageVehicles: {} };
     }
 
     case actionTypes.ADD_VEHICLE_SUCCESS: {
-      const { vehicle } = action
+      const { vehicle } = action;
+      const myVehicles = state.myVehicles;
       return {
         ...state,
-        myVehicles: { ...state.myVehicles, [vehicle.id]: vehicle },
-      }
+        myVehicles: { ...myVehicles, [vehicle.id]: vehicle },
+      };
     }
+
     case actionTypes.REMOVE_VEHICLE_SUCCESS: {
-      const { vehicle } = action
-      const vehicles = { ...state }
-      delete vehicles[vehicle.id]
-      return { ...state, myVehicles: vehicles }
+      const { vehicleId } = action;
+      const myVehicles = state.myVehicles;
+      delete myVehicles[vehicleId];
+      return { ...state, myVehicles: { ...myVehicles } };
+    }
+
+    case actionTypes.EDIT_VEHICLE_SUCCESS: {
+      const { vehicle } = action;
+      const myVehicles = state.myVehicles;
+      return {
+        ...state,
+        myVehicles: { ...myVehicles, [vehicle.id]: vehicle },
+      };
     }
 
     case actionTypes.FETCH_VEHICLESHOMEPAGE_SUCCESS: {
-      const { vehicles } = action
-      return { ...state, mainPageVehicles: vehicles }
+      const { vehicles } = action;
+      return { ...state, mainPageVehicles: vehicles };
     }
 
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default vehiclesReducer
+export default vehiclesReducer;
