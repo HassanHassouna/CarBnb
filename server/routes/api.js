@@ -4,11 +4,11 @@ const car = require("./car");
 const reservation = require("./reservation");
 const user = require("./user");
 const utils = require("./utils");
-const auth = require("../middleware/auth")
+const auth = require("../middleware/auth");
 
-router.use("/car", auth, car);
-router.use("/reservation", auth, reservation);
-router.use("/user", auth, user);
-router.use("/utils", auth, utils);
+router.use("/api/car", auth, car);
+router.use("/api/reservation", auth, reservation);
+router.use("/api/user", auth, user);
+router.use("/api/utils", auth, utils);
 
 module.exports = router;

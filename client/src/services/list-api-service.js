@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 const BASE_URL = `/api`;
-const CAR = `/car`;
-const RES = `/reservation`;
-const USER = `/user`;
-const UTILS = `/utils`;
+const CAR = `/car/`;
+const RES = `/reservation/`;
+const USER = `/user/`;
+const UTILS = `/utils/`;
 
 class ListApiService {
   static async baseGet(url) {
-    const userEmail = JSON.parse(localStorage.getItem('user')).email;
+    const userEmail = JSON.parse(localStorage.getItem("user")).email;
     return axios.get(url, {
       headers: {
         Authorization: userEmail,
@@ -16,7 +16,7 @@ class ListApiService {
   }
 
   static async basePost(url, body) {
-    const userEmail = JSON.parse(localStorage.getItem('user')).email;
+    const userEmail = JSON.parse(localStorage.getItem("user")).email;
     return axios.post(url, body, {
       headers: {
         Authorization: userEmail,
@@ -25,7 +25,7 @@ class ListApiService {
   }
 
   static async basePut(url, body) {
-    const userEmail = JSON.parse(localStorage.getItem('user')).email;
+    const userEmail = JSON.parse(localStorage.getItem("user")).email;
     return axios.put(url, body, {
       headers: {
         Authorization: userEmail,

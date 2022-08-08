@@ -17,11 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "/client/build/")));
 
-app.use("/api", api);
+app.use("/", api);
 app.use(errorHandler);
-app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "/client/build/index.html"));
-});
+// app.use("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "..", "/client/build/index.html"));
+// });
 
 console.log("here:",path.join(__dirname, "..", "/client/build/index.html"));
 app.listen(PORT, () => console.log(`App is Up on port ${PORT}`));
