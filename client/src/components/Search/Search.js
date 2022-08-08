@@ -196,7 +196,7 @@ export default function Search() {
             fullWidth
             placeholder="Where?"
             sx={{
-              "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+              "& .MuiOutlinedInput-notchedOutline.css-igs3ac": {
                 borderStyle: "none",
               },
             }}
