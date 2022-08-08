@@ -1,0 +1,11 @@
+.aboutus_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "aboutus_left aboutus_right"
+    "aboutus_left aboutus_right";
+  grid-gap: 20px;
+  margin: 0 auto;
+  width: 100vw;
+  margin-top: 1vh;
+}
