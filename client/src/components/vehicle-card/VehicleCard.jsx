@@ -14,11 +14,12 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CardActions from '@mui/material/CardActions';
 import Box from '@mui/material/Box';
 import ReserveCar from '../reserveCar/ReserveCar';
-import { useDispatch } from 'react-redux';
-import { removeVehicle } from '../../app/actions/remove-vehicle-actions';
-import { useState } from 'react';
-import EditVahicleDialog from '../editCarForm/EditCarDialog';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
+import EditVahicleDialog from '../editCarForm/EditCarDialog';
+import { removeVehicle } from '../../app/actions/remove-vehicle-actions';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 const styleBox1 = {
   display: 'flex',
@@ -56,6 +57,8 @@ const VehicleCard = ({
   description,
   year,
 }) => {
+  const matches = useMediaQuery('(min-width:1160px)');
+
   const dispatch = useDispatch();
 
   const [isEditCarPressed, setIsEditCarPressed] = useState(false);
@@ -73,37 +76,25 @@ const VehicleCard = ({
 
   return (
     <React.Fragment>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card
+        sx={{
+          minWidth: 400,
+          display: 'flex',
+          flexDirection: 'column',
+          margin: 'auto',
+          padding: matches ? '10px' : '0px',
+        }}
+      >
         <CardMedia
           component="img"
           sx={{
-            objectFit: 'cover',
-            height: '140px',
+            height: 200,
           }}
           image={profile_picture}
-          alt={''}
+          alt={profile_picture}
         />
         <CardContent>
           <Box sx={styleBox1}>
-            <Box>
-              <Typography
-                display="flex"
-                flexDirection="row"
-                variant="h6"
-                fontWeight={'bold'}
-                component="div"
-              >
-                {brand}
-                <Typography
-                  component="div"
-                  marginLeft="10px"
-                  variant="h8"
-                  color="text.secondary"
-                >
-                  {type}
-                </Typography>
-              </Typography>
-            </Box>
             <Typography variant="h7" color="text.secondary">
               {model}
             </Typography>

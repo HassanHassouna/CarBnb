@@ -9,9 +9,11 @@ import { Pagination } from 'swiper';
 import VehicleCard from '../vehicle-card/VehicleCard';
 import 'swiper/css/pagination';
 import { fetchMyVehicles } from '../../app/actions/fetch-vehicles-actions';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import './MyCars.css';
 
 const MyCars = memo(() => {
+  const matches = useMediaQuery('(min-width:1160px)');
   const dispatch = useDispatch();
   const [isAddCarPressed, setIsAddCarPressed] = useState(false);
 
@@ -62,7 +64,7 @@ const MyCars = memo(() => {
             width: '100%',
             paddingBottom: '3rem',
           }}
-          slidesPerView={3}
+          slidesPerView={matches ? '3' : '1'}
           spaceBetween={10}
           pagination={{
             clickable: true,

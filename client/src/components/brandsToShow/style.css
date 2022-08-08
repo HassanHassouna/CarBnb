@@ -1,7 +1,6 @@
 .containerr.testimonials__containerr {
   width: 50%;
-  padding-bottom: 8rem;
-  height: 20vh;
+  padding-bottom: 5rem;
 }
 img {
   width: 100%;
@@ -9,10 +8,8 @@ img {
 #section {
   text-align: center;
 }
-.swiper-pagination-clickable .swiper-pagination-bullet {
-  /* background: var(--color-primary); */
-}
-.testemonials {
+
+.card {
   text-align: center;
   border-radius: 2rem;
   user-select: none;

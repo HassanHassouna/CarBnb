@@ -1,57 +1,45 @@
 import React, { forwardRef } from 'react';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { makeStyles } from '@material-ui/core/styles';
+import NativeSelect from '@mui/material/NativeSelect';
 import { possibleTimes } from './data';
 import './style.css';
 
-const useStyles = makeStyles(() => ({
-  notchedOutline: {
-    border: 'none',
-  },
-  select: {
-    '& li': {
-      fontSize: 12,
-    },
-  },
-  dropdownStyle: {
-    backgroundColor: 'lightgrey',
-  },
-}));
-
 const Time = forwardRef((props, ref) => {
-  const classes = useStyles();
+  // pick the time from array that equals to the time in the from props
+  const times = possibleTimes.find((time) => time === props.timeFrom);
   const [time, setTime] = React.useState('');
-
   const handleChange = (event) => {
-    if (window.location.href !== 'http://localhost:3000/') {
+    if (window.location.href !== 'https://vehiculo-app.herokuapp.com/') {
       if (props.label === 'from') {
         props.setTimeFrom(event.target.value);
       } else {
         props.setTimeUntil(event.target.value);
       }
     }
-
     setTime(event.target.value);
   };
 
   return (
-    <FormControl sx={{ minWidth: 125, mr: 1 }}>
-      <Select
-        variant="standard"
-        MenuProps={{ classes: { paper: classes.dropdownStyle } }}
-        value={time === null ? '10:00' : time}
+    <FormControl
+      sx={props.width ? { minWidth: props.width } : { minWidth: '10vw', mr: 1 }}
+    >
+      <NativeSelect
+        value={
+          time !== null
+            ? props.label === 'from'
+              ? possibleTimes.find((time) => time === props.timeFrom)
+              : possibleTimes.find((time) => time === props.timeUntil)
+            : time
+        }
         onChange={handleChange}
         inputRef={ref}
-        required
       >
         {possibleTimes.map((time, index) => (
-          <MenuItem key={index} value={time}>
+          <option key={index + 1 * 10} value={time}>
             {time}
-          </MenuItem>
+          </option>
         ))}
-      </Select>
+      </NativeSelect>
     </FormControl>
   );
 });

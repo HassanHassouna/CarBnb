@@ -1,40 +1,40 @@
-import { useState, useEffect, useCallback, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import MyTripsCard from "../MyTripsCard/MyTripsCard";
-import MyReservationsCard from "../MyReservationsCard/MyReservationsCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
-import { useOutletContext } from "react-router-dom";
-import "swiper/css";
-import "swiper/css/pagination";
-import "./OrdersContainer.css";
-import { fetchMyOrdAndRes } from "../../app/actions/user-actions";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import SelectInput from "@mui/material/Select/SelectInput";
+import { useEffect, useCallback, memo } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import MyTripsCard from "../MyTripsCard/MyTripsCard"
+import MyReservationsCard from "../MyReservationsCard/MyReservationsCard"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Pagination } from "swiper"
+import { useOutletContext } from "react-router-dom"
+import "swiper/css"
+import "swiper/css/pagination"
+import "./OrdersContainer.css"
+import { fetchMyOrdAndRes } from "../../app/actions/user-actions"
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 const OrdersContainer = memo((props) => {
-  const handleOutletChange = useOutletContext();
-  const loading = useSelector((state) => state.viewSlice.isLoading);
-  const dispatch = useDispatch();
-  const myId = useSelector((state) => state.userSlice.userObject.id);
-  const isLoggedIn = useSelector((state) => state.userSlice.isLoggedIn);
-  const myOrders = useSelector((state) => state.userSlice.orders);
-  const myReservations = useSelector((state) => state.userSlice.reservations);
-  const ordersList = Object.values(myOrders);
-  const reservationsList = Object.values(myReservations);
-  const { page } = props;
-  const data = page === "trips" ? ordersList : reservationsList;
-  const pageLabel = `No past ${page}`;
-  const pageTitle = `My ${page}`;
-  handleOutletChange(page);
+  const matches = useMediaQuery("(min-width:1160px)")
+  const handleOutletChange = useOutletContext()
+  const loading = useSelector((state) => state.viewSlice.isLoading)
+  const dispatch = useDispatch()
+  const myId = useSelector((state) => state.userSlice.userObject.id)
+  const myOrders = useSelector((state) => state.userSlice.orders)
+  const myReservations = useSelector((state) => state.userSlice.reservations)
+  const ordersList = Object.values(myOrders)
+  const reservationsList = Object.values(myReservations)
+  const { page } = props
+  const data = page === "trips" ? ordersList : reservationsList
+  const pageLabel = `No past ${page}`
+  const pageTitle = `My ${page}`
+  handleOutletChange(page)
 
   const fetchMyData = useCallback((id) => {
-    if(id) dispatch(fetchMyOrdAndRes(id));
-  }, []);
+    if (id) dispatch(fetchMyOrdAndRes(id))
+  }, [])
 
   useEffect(() => {
-    fetchMyData(myId);
-  }, [myId]);
+    fetchMyData(myId)
+  }, [myId])
 
   const defaultOuput = () => {
     return (
@@ -52,14 +52,26 @@ const OrdersContainer = memo((props) => {
   if (loading) return <LoadingSpinner />
   return (
     <>
-      <div className="details-view-container">
-        <p className="title"> {pageTitle} </p>
+      <div>
+        <p
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            width: "100%",
+          }}
+          className="title"
+        >
+          {" "}
+          {pageTitle}{" "}
+        </p>
         {data.length === 0 && defaultOuput()}
       </div>
       {data.length !== 0 && (
         <Swiper
           style={{ paddingBottom: "2rem" }}
-          slidesPerView={3}
+          slidesPerView={matches ? "3" : "1"}
           spaceBetween={10}
           pagination={{
             clickable: true,
@@ -145,7 +157,7 @@ const OrdersContainer = memo((props) => {
         </Swiper>
       )}
     </>
-  );
-});
+  )
+})
 
 export default OrdersContainer

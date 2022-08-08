@@ -14,6 +14,7 @@ import Stack from "@mui/material/Stack"
 import { makeStyles } from "@material-ui/core/styles"
 import { useLocation } from "react-router-dom"
 import ListApiService from "../../services/list-api-service"
+import { useSelector } from "react-redux"
 import "./style.css"
 const GOOGLE_MAPS_API_KEY = "AIzaSyAsJrza-9qgAdE5FUD2f26prJwV9vCt7wA"
 
@@ -39,6 +40,7 @@ const autocompleteService = { current: null }
 export default function SideSearch() {
   const { state } = useLocation()
   const classes = useStyles()
+  const user = useSelector((state) => state.userSlice.userObject)
   const today = new Date()
   const threeDays = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000)
   const [value, setValue] = React.useState(null)
@@ -125,9 +127,7 @@ export default function SideSearch() {
       end_order: dataUntil,
       car_id: state.currentVehicle.id,
     }
-    console.log("data", data)
     ListApiService.isCarAvailable(data).then((res) => {
-      console.log("res", res)
       if (res) {
         setDatesAvailable(false)
       } else {

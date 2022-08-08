@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner"
 
-const BrandsToShow = () => {
+const BrandsToShowResponsive = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const loading = useSelector((state) => state.viewSlice.isLoading)
@@ -44,7 +44,7 @@ const BrandsToShow = () => {
         className="containerr testimonials__containerr"
         modules={[Pagination]}
         spaceBetween={20}
-        slidesPerView={2}
+        slidesPerView={1}
         pagination={{ clickable: true }}
       >
         {Object.keys(vehicles).map((index) => {
@@ -53,11 +53,12 @@ const BrandsToShow = () => {
               <Card
                 onClick={() => onClick(vehicles[index]?.id)}
                 className="card-brand"
+                sx={{ maxWidth: 345 }}
               >
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    height="150"
+                    height="140"
                     image={vehicles[index]?.profile_picture}
                     alt={vehicles[index]?.brand}
                   />
@@ -76,4 +77,4 @@ const BrandsToShow = () => {
     </section>
   )
 }
-export default BrandsToShow
+export default BrandsToShowResponsive

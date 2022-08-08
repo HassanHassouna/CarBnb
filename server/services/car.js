@@ -30,7 +30,6 @@ class CarsService {
   };
 
   addCar = async (car) => {
-    console.log(car);
     return await Car.create({
       profile_picture: car.profile_picture,
       brand: car.brand,
