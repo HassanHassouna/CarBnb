@@ -18,7 +18,7 @@ export default function HelperTextMisaligned() {
 
     window.localStorage.setItem("user", JSON.stringify(userObject))
     if (userObject) {
-      window.location.href = "https://vehiculo-app.herokuapp.com/"
+      window.location.href = "/"
     } else {
       console.log("error")
     }
