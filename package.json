@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "hello",
   "main": "index.js",
+  
   "scripts": {
     "start": "node server/server.js",
     "run": "node server/server.js",
     "run:dev": "nodemon server/server.js",
     "build": "cd client && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cd client && react-scripts test --watchAll=false ",
     "db:migrate": " cd server/db && npx sequelize-cli db:migrate ",
     "db:seed": " cd server/db && npx sequelize-cli db:seed:all ",
     "build:client": "npm config set legacy-peer-deps true && cd client && npm i && npm run build"
